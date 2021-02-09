@@ -1,5 +1,7 @@
-﻿using DataAccess.Abstract;
+﻿using Core.DataAccess.EntityRepository.Abstract;
+using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,6 +63,16 @@ namespace DataAccess.Concrete.InMemory
             _products.Add(product);
         }
 
+        public bool Commit()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool CreateBulk(List<Product> entities)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Delete(Product product)
         {
             Product productToDelete;
@@ -75,6 +87,11 @@ namespace DataAccess.Concrete.InMemory
             throw new NotImplementedException();
         }
 
+        public Product Get(Expression<Func<Product, bool>> expression, params Expression<Func<Product, object>>[] includes)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Product> GetAll()
         {
             return _products;
@@ -85,9 +102,19 @@ namespace DataAccess.Concrete.InMemory
             throw new NotImplementedException();
         }
 
+        public List<Product> GetAll(Expression<Func<Product, bool>> expression = null, params Expression<Func<Product, object>>[] includes)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Product> GetAllByCategory(int categoryId)
         {
             return _products.Where(p => p.CategoryId == categoryId).ToList();
+        }
+
+        public List<ProductDetailDto> GetProductDetails()
+        {
+            throw new NotImplementedException();
         }
 
         public void Update(Product product)
@@ -100,6 +127,21 @@ namespace DataAccess.Concrete.InMemory
             productToUpdate.ProductName = product.ProductName;
             productToUpdate.UnitPrice = product.UnitPrice;
             productToUpdate.UnitsInStock = product.UnitsInStock;
+        }
+
+        bool IEntityRepository<Product>.Add(Product entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IEntityRepository<Product>.Delete(Product entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IEntityRepository<Product>.Update(Product entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

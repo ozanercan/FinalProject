@@ -1,66 +1,30 @@
-﻿using DataAccess.Abstract;
+﻿using Core.DataAccess.EntityRepository.Concrete;
+using DataAccess.Abstract;
 using Entities.Concrete;
-using Microsoft.EntityFrameworkCore;
-using System;
+using Entities.Dtos;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfProductDal : IProductDal
+    public class EfProductDal : EntityRepositoryBase<Product, NorthwindContext>, IProductDal
     {
-        public void Add(Product entity)
+        public List<ProductDetailDto> GetProductDetails()
         {
-            using (NorthwindContext context = new NorthwindContext())
-            {
-                var addedEntity = context.Entry(entity);
-                addedEntity.State = EntityState.Added;
-                context.SaveChanges();
-            }
-        }
+            NorthwindContext context = new NorthwindContext();
 
-        public void Delete(Product entity)
-        {
-            using (NorthwindContext context = new NorthwindContext())
-            {
-                var deletedEntity = context.Entry(entity);
-                deletedEntity.State = EntityState.Deleted;
-                context.SaveChanges();
-            }
-        }
+            var result = from p in context.Products
+                         join c in context.Categories
+                         on p.CategoryId equals c.CategoryId
+                         select new ProductDetailDto
+                         {
+                             ProductID = p.ProductId,
+                             CategoryName = c.CategoryName,
+                             ProductName = p.ProductName,
+                             UnitsInStock = p.UnitsInStock
+                         };
 
-        public Product Get(Expression<Func<Product, bool>> exp)
-        {
-            using (NorthwindContext context = new NorthwindContext())
-            {
-                return context.Products.Where(exp).First();
-            }
-        }
-
-        public List<Product> GetAll(Expression<Func<Product, bool>> exp = null)
-        {
-            using (NorthwindContext context = new NorthwindContext())
-            {
-                if (exp == null)
-                {
-                    return context.Products.ToList();
-                }
-                else
-                {
-                    return context.Products.Where(exp).ToList();
-                }
-            }
-        }
-
-        public void Update(Product entity)
-        {
-            using (NorthwindContext context = new NorthwindContext())
-            {
-                var updatedEntity = context.Entry(entity);
-                updatedEntity.State = EntityState.Modified;
-                context.SaveChanges();
-            }
+            return result.ToList();
         }
     }
 }
