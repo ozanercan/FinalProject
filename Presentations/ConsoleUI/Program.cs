@@ -14,17 +14,29 @@ namespace ConsoleUI
 
             //GetCategories();
 
-            IProductService productService = new ProductManager(new EfProductDal());
-
-            var productDetails = productService.GetProductDetails();
-
-            productDetails.ForEach(p =>
-            {
-                Console.WriteLine("-----------------------------------------");
-                Console.WriteLine($"Product Id: {p.ProductID} \nCategory: {p.CategoryName}\nProduct: {p.ProductName}\nStock: {p.UnitsInStock}");
-            });
+            GetProductDetails();
 
             Console.ReadLine();
+        }
+
+        private static void GetProductDetails()
+        {
+            IProductService productService = new ProductManager(new EfProductDal());
+
+            var productDetailsResult = productService.GetProductDetails();
+
+            if (productDetailsResult.Success)
+            {
+                productDetailsResult.Data.ForEach(p =>
+                {
+                    Console.WriteLine($"Product Id: {p.ProductID} \nCategory: {p.CategoryName}\nProduct: {p.ProductName}\nStock: {p.UnitsInStock}");
+                    Console.WriteLine("-----------------------------------------");
+                });
+            }
+            else
+            {
+                Console.WriteLine(productDetailsResult.Message);
+            }
         }
 
         private static void GetCategories()
@@ -42,7 +54,7 @@ namespace ConsoleUI
 
             var productList = productService.GetAllByCategoryId(2);
 
-            productList.ForEach(p => Console.WriteLine(p.ProductName));
+            productList.Data.ForEach(p => Console.WriteLine(p.ProductName));
         }
     }
 }
