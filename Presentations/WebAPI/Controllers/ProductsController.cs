@@ -23,7 +23,6 @@ namespace WebAPI.Controllers
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            new ProductManager(new EfProductDal());
             var result = _productService.GetAll();
             if (result.Success)
                 return Ok(result);
