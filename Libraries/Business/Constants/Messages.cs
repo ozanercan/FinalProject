@@ -1,4 +1,6 @@
-﻿namespace Business.Constants
+﻿using System.Runtime.Serialization;
+
+namespace Business.Constants
 {
     public static class Messages
     {
@@ -17,5 +19,13 @@
         public static string CategoryLimitExceded = "Kategori limiti aşıldığı ürün eklenemez.";
 
         public static string CategoryCountError = "Kategori miktari bulunamadı.";
+
+        public static string AuthorizationDenied = "Yetkiniz yok.";
+        public static string UserRegistered = "Kullanıcı kayıt edildi.";
+        public static string UserNotFound = "Kullanıcı bulunamadı.";
+        public static string PasswordError = "Şifre yanlış.";
+        public static string UserAlreadyExists = "Kullanıcı zaten var.";
+        public static string SuccessfulLogin = "Giriş başarılı.";
+        public static string AccessTokenCreated = "Token oluşturuldu.";
     }
 }

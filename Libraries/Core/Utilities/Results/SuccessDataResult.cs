@@ -2,10 +2,10 @@
 {
     public class SuccessDataResult<TData> : DataResult<TData>
     {
-        public SuccessDataResult(string message, TData data) : base(true, message, data)
+        public SuccessDataResult(TData data, string message) : base(data, true, message)
         {
         }
-        public SuccessDataResult(TData data) : base(true, data)
+        public SuccessDataResult(TData data) : base(data, true)
         {
         }
     }
